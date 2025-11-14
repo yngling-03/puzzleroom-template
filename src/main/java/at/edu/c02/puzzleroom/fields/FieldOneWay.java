@@ -33,7 +33,6 @@ public class FieldOneWay extends BaseField {
         if (direction == allowedMove)
             return true;
 
-
         return false;
     }
 }
