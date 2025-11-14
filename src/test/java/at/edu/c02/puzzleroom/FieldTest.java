@@ -93,6 +93,9 @@ public class FieldTest {
         boolean success1 = player.moveUp();
         assertTrue(success);
 
+        boolean success2 = player.moveLeft();
+        assertFalse(success2);
+
         // Player should now be at 1 step
         assertEquals(2, player.getStepCount());
     }
