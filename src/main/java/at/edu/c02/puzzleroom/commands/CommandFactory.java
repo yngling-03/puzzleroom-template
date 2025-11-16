@@ -16,7 +16,7 @@ public class CommandFactory {
      * `load a b c`
      * then `command = "load"` and `arguments = ["a", "b", "c"]
      *
-     * @param command First word of the user input
+     * @param command   First word of the user input
      * @param arguments Arguments of the command
      * @return An instance of the corresponding command
      * @throws PuzzleRoomException When the command was not found
@@ -27,6 +27,7 @@ public class CommandFactory {
             case "load" -> new CommandLoad(arguments);
             case "show" -> new CommandShow();
             case "move" -> new CommandMove(arguments);
+            case "fastmove" -> new CommandFastMove(arguments);
             default -> throw new PuzzleRoomCommandNotFoundException();
         };
     }
