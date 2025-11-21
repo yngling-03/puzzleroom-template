@@ -3,6 +3,7 @@ package at.edu.c02.puzzleroom;
 import at.edu.c02.puzzleroom.fields.Field;
 
 public class PlayerImpl implements Player {
+
     private final GameBoard gameBoard;
     private int row;
     private int col;
@@ -12,73 +13,72 @@ public class PlayerImpl implements Player {
         this.gameBoard = gameBoard;
     }
 
+    @Override
     public void setPosition(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
+    @Override
     public boolean moveUp() {
         return moveTo(row - 1, col, Direction.Up);
     }
 
+    @Override
     public boolean moveDown() {
         return moveTo(row + 1, col, Direction.Down);
     }
 
+    @Override
     public boolean moveLeft() {
         return moveTo(row, col - 1, Direction.Left);
     }
 
+    @Override
     public boolean moveRight() {
         return moveTo(row, col + 1, Direction.Right);
     }
 
-    private boolean moveTo(int row, int col, Direction direction) {
-        // Do not allow movement after the player reached the "finish" field
+    private boolean moveTo(int targetRow, int targetCol, Direction direction) {
         if (gameBoard.isFinished()) {
             return false;
         }
-        // Get the current field and check if we can leave it
+
         Field currentField = gameBoard.getField(this.row, this.col);
-        boolean canLeave = currentField.leaveField(direction);
-        if(!canLeave) {
+        if (!currentField.leaveField(direction)) {
             return false;
         }
 
-        // If we can leave, get the new field and try to enter it.
-        // The new field's `enterField` position will update the player position
-        // if it was successful.
-        // It is possible that the new position is somewhere other than row/col
-        // e.g. for teleporters, ice fields
-        Field newField = gameBoard.getField(row, col);
-        boolean canEnter = newField.enterField(direction);
-        if(!canEnter) {
-            return false;
-        }
-        return true;
+        Field newField = gameBoard.getField(targetRow, targetCol);
+        return newField.enterField(direction);
     }
 
+    @Override
     public void walkStep() {
         walkSteps(1);
     }
 
+    @Override
     public void walkSteps(int amount) {
         steps += amount;
-        // Negative step counts are not allowed, even when walking over a bonus field
-        if(steps < 0) {
+        if (steps < 0) {
             steps = 0;
         }
     }
 
+    @Override
     public int getStepCount() {
-        return this.steps;
+        return steps;
     }
 
+    @Override
     public int getRow() {
-        return this.row;
+        return row;
     }
 
+    @Override
     public int getCol() {
-        return this.col;
+        return col;
     }
 }
+``
