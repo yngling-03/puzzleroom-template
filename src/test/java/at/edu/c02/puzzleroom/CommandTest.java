@@ -70,6 +70,15 @@ public class CommandTest {
 
         new CommandFastMove(new String[]{"l"}).execute(gameBoard);
     }
+    @Test(expected = PuzzleRoomInvalidArgumentsException.class)
+    public void fastmoveNegativeTestInvalidArguments() throws Exception {
+        GameBoard gameBoard = new GameBoardImpl();
+        new CommandLoad(new String[]{"src/test/resources/simple.maze"}).execute(gameBoard);
+
+        // "x" ist kein gültiger Bewegungsparameter -> sollte InvalidArguments werfen
+        new CommandFastMove(new String[]{"x"}).execute(gameBoard);
+    }
+}
 
 
 }
