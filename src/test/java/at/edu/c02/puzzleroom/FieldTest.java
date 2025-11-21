@@ -141,4 +141,30 @@ public class FieldTest {
         assertEquals(1, player.getRow());
         assertEquals(2, player.getCol());
     }
+        @Test
+    public void playerCannotMoveAfterFinish() throws Exception {
+        GameBoard gameBoard = new GameBoardImpl();
+        new CommandLoad(new String[]{"src/test/resources/simple.maze"}).execute(gameBoard);
+        Player player = gameBoard.getPlayer();
+
+        // Maze beenden
+        player.moveRight();
+        player.moveRight();
+
+        // Spiel ist fertig
+        assertTrue(gameBoard.isFinished());
+        int stepsAfterFinish = player.getStepCount();
+        int rowAfterFinish = player.getRow();
+        int colAfterFinish = player.getCol();
+
+        // weiterer Move darf nichts mehr ändern
+        boolean success = player.moveRight();
+        assertFalse(success);
+        assertTrue(gameBoard.isFinished());
+        assertEquals(stepsAfterFinish, player.getStepCount());
+        assertEquals(rowAfterFinish, player.getRow());
+        assertEquals(colAfterFinish, player.getCol());
+    }
+}
+
 }
