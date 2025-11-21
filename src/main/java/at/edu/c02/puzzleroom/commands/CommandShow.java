@@ -16,20 +16,26 @@ import java.util.List;
  * Example usage: `show`
  */
 public class CommandShow implements Command {
+
+    @Override
     public void execute(GameBoard gameBoard) throws PuzzleRoomException {
         List<List<Field>> fields = gameBoard.getFields();
         Player player = gameBoard.getPlayer();
-        if (fields == null || player == null) {
+
+        if (fields == null || fields.isEmpty() || player == null) {
             throw new PuzzleRoomNoMazeLoadedException();
         }
+
+        int playerRow = player.getRow();
+        int playerCol = player.getCol();
 
         for (int row = 0; row < fields.size(); row++) {
             List<Field> fieldRow = fields.get(row);
             for (int col = 0; col < fieldRow.size(); col++) {
-                Field field = fieldRow.get(col);
-                if (row == player.getRow() && col == player.getCol()) {
+                if (row == playerRow && col == playerCol) {
                     System.out.print('*');
                 } else {
+                    Field field = fieldRow.get(col);
                     System.out.print(field.getName());
                 }
             }
